@@ -1,6 +1,3 @@
-
-
-
 # Sistem Manajemen Inventaris Toko
 
 Project ini adalah aplikasi berbasis Python untuk mengelola inventaris toko sederhana, meliputi pencatatan barang, pengelolaan stok, dan penyimpanan data secara lokal.

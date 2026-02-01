@@ -1,41 +1,39 @@
-  #isi menu
+import json
+import os
+import fitur_projek
 
-def tambah_barang_ke_inventaris():
-    print('masih tahap develop')
+#isi menu
 
-def mengupdate_stok_barang():
-    print('masih tahap develop')
 
-def menghapus_barang():
-    print('masih tahap develop')
+
 
 def menampilkan_daftar_barang():
-    print('masih tahap develop')
+    return 'masih tahap develop'
 
 def menyimpan_dan_memuat_data_dari_file_lokal():
-    print('masih tahap develop')
+    return 'masih tahap develop'
 
 #pengelola menu
 
 def handle_menu(pilih):
     if pilih == 1:
-        tambah_barang_ke_inventaris()
+        fitur_projek.tambah_barang_ke_inventaris()
         return True
 
     elif pilih == 2:
-        mengupdate_stok_barang()
+        fitur_projek.mengupdate_stok_barang()
         return True
 
     elif pilih == 3:
-        menghapus_barang()
+        fitur_projek.menghapus_barang()
         return True
 
     elif pilih == 4:
-        menampilkan_daftar_barang()
+        fitur_projek.menampilkan_daftar_barang()
         return True
 
     elif pilih == 5:
-        menyimpan_dan_memuat_data_dari_file_lokal()
+        fitur_projek.menyimpan_dan_memuat_data_dari_file_lokal()
         return True
 
     elif pilih == 0:
@@ -44,6 +42,19 @@ def handle_menu(pilih):
 
     else:
         print('Angka tidak ada di menu...! \n masukkan ulang input >>> ')
-        return False
+        return True
 
-    
+#class
+
+class barang:
+    def __init__(self, nama, barang):
+        self.nama = nama
+        self.barang = barang
+
+    def tambah_barang(self, barang_baru):
+        self.barang += barang_baru
+
+    def kurang_barang(self, barang_baru):
+        self.barang -= barang_baru
+
+daftar_inventory = []
