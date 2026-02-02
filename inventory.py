@@ -1,7 +1,28 @@
-#isi menu
-def tambah_barang():
-    return 'masih tahap develop'
+#class
 
+class Barang:
+    def __init__(self, barang, stok):
+        self.barang = barang
+        self.stok = stok
+
+    def tambah_barang(self, jumlah):
+        self.stok += jumlah
+       
+#menu fitur
+
+def menu_tambah_barang():
+    print('>>> fitur tambah barang <<<')  
+    while True:
+        try:    
+            nama_barang = int(input('masukkan nama barang >>> '))
+            jumlah_stok = int(input('masukkan jumlah stok >>> '))
+            return 'perintah berhasil...',{
+                'nama_barang':nama_barang,
+                'jumlah_stok':jumlah_stok
+            }
+        except ValueError:
+            print('harap isi dengan benar')
+    
 def update_stok():
     return 'masih tahap develop'
 
@@ -18,7 +39,7 @@ def simpan_file_lokal():
 
 def handle_menu(pilih):
     if pilih == 1:
-        tambah_barang()
+        menu_tambah_barang()
         return True
 
     elif pilih == 2:
@@ -44,19 +65,3 @@ def handle_menu(pilih):
     else:
         print('Angka tidak ada di menu...! \n masukkan ulang input >>> ')
         return True
-
-#class
-
-class barang:
-    def __init__(self, nama, barang):
-        self.nama = nama
-        self.barang = barang
-
-    def tambah_barang(self, barang_baru):
-        self.barang += barang_baru
-
-    def kurang_barang(self, barang_baru):
-        self.barang -= barang_baru
-
-daftar_inventory = []
-
