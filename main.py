@@ -1,5 +1,4 @@
 import inventory
-import logging
 
 def buka_menu():
             print('>>> SISTEM_MANAGEMEN_INVENTARIS_TOKO <<<')
