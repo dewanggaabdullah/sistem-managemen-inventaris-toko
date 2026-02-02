@@ -1,39 +1,40 @@
-import json
-import os
-import fitur_projek
-
 #isi menu
-
-
-
-
-def menampilkan_daftar_barang():
+def tambah_barang():
     return 'masih tahap develop'
 
-def menyimpan_dan_memuat_data_dari_file_lokal():
+def update_stok():
+    return 'masih tahap develop'
+
+def hapus_barang():
+    return 'masih tahap develop'
+
+def tampilkan_daftar():
+    return 'masih tahap develop'
+
+def simpan_file_lokal():
     return 'masih tahap develop'
 
 #pengelola menu
 
 def handle_menu(pilih):
     if pilih == 1:
-        fitur_projek.tambah_barang_ke_inventaris()
+        tambah_barang()
         return True
 
     elif pilih == 2:
-        fitur_projek.mengupdate_stok_barang()
+        update_stok()
         return True
 
     elif pilih == 3:
-        fitur_projek.menghapus_barang()
+        hapus_barang()
         return True
 
     elif pilih == 4:
-        fitur_projek.menampilkan_daftar_barang()
+        tampilkan_daftar()
         return True
 
     elif pilih == 5:
-        fitur_projek.menyimpan_dan_memuat_data_dari_file_lokal()
+        simpan_file_lokal()
         return True
 
     elif pilih == 0:
@@ -58,3 +59,4 @@ class barang:
         self.barang -= barang_baru
 
 daftar_inventory = []
+

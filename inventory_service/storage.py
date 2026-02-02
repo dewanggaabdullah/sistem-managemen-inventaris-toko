@@ -1,7 +1,7 @@
-import json
 import os
+import json
 
-FILE_NAME = 'data.json'
+FILE_NAME = '>>> data.json <<<'
 
 def simpan_data(daftar_barang):
     data_to_save = []

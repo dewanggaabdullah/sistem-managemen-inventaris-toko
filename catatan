@@ -1,0 +1,63 @@
+Fungsi tiap file (buat pengingat developer)
+
+1. README.md
+
+Isi:
+
+deskripsi project
+cara jalanin
+fitur singkat
+
+Jangan kosong. README kosong itu tanda project ditelantarkan.
+
+2. main.py
+
+Entry point.
+Menu CLI
+Ambil input user
+
+Panggil fungsi dari inventory.py
+
+Tidak ada logic berat di sini. Kalau kebanyakan if, itu bau.
+
+3. inventory.py
+
+Otak bisnis.
+add item
+update stock
+delete item
+list items
+
+File ini tidak tahu soal file system. Dia cuma mikir logika.
+
+4. storage.py
+
+Urusan simpan-baca data.
+load data dari JSON
+save data ke JSON
+Tidak ada print(), tidak ada input user. Fokus.
+
+5. item.py
+
+Model data.
+class Item
+validasi dasar (stock tidak minus, dll)
+
+Kalau nanti mau ke database, file ini masih kepakai.
+
+6. utils.py
+
+Helper kecil.
+format output
+validasi input
+fungsi umum
+
+Kalau file ini mulai gede → tandanya kamu perlu refactor. Itu kabar baik.
+
+Aturan penamaan (ini yang bikin hidup lebih damai)
+
+lowercase
+snake_case
+jangan ganti-ganti nama file
+
+satu file = satu tanggung jawab
