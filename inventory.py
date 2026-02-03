@@ -22,7 +22,7 @@ def menu_tambah_barang():
                 print('berhasil memasukkan data:')
                 print(f'nama barang: {nama_barang}')
                 print(f'jumlah stok: {jumlah_stok}')
-                return barang(nama_barang, jumlah_stok)
+                return Barang(nama_barang, jumlah_stok)
         except ValueError:
             print('harap isi dengan benar')
     
