@@ -42,6 +42,8 @@ while True:
 
     else:
         print('Angka tidak ada di menu...!')
-        
 
-    input('\nTekan Enter untuk kembali ke menu...')
+    try:
+        input('\nTekan Enter untuk kembali ke menu...')
+    except EOFError:
+        break

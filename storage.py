@@ -5,17 +5,20 @@ import json
 FILE_NAME = 'data.json'
 
 def simpan_data(daftar_barang):
+
     data_to_save = []
+
     for item in daftar_barang:
-        data_to_save.append({
-            "nama": item.nama,
-            "stok": item.stok
-        })
 
-    with open(FILE_NAME, "w") as f:
-        json.dump(data_to_save, f, indent=4)
+        if isinstance(item, dict):
+            name = item.get('nama') or item.get('nama_barang')
+            stok = item.get('stok') or item.get('jumlah_stok')
 
-        print('data berhasil disimpan ke data.json...')
+        else:
+            name = getattr(item, 'barang', getattr(item, 'nama', None))
+            stok = getattr(item, 'stok', getattr(item, 'jumlah_stok', None))
+
+        data_to_save.append({"nama": name, "stok": stok})
 
 def muat_data():
     if not os.path.exists(FILE_NAME):
