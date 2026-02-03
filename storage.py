@@ -1,6 +1,7 @@
 import os
 import json
 
+
 FILE_NAME = 'data.json'
 
 def simpan_data(daftar_barang):
@@ -12,7 +13,8 @@ def simpan_data(daftar_barang):
         })
 
     with open(FILE_NAME, "w") as f:
-        json.dump(data_to_save, f, indent = 4)
+        json.dump(data_to_save, f, indent=4)
+
         print('data berhasil disimpan ke data.json...')
 
 def muat_data():

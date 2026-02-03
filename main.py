@@ -1,3 +1,6 @@
+import inventory
+from storage import daftar_inventaris
+
 def buka_menu():
     print('>>> SISTEM_MANAGEMEN_INVENTARIS_TOKO <<<')
     print('Silahkan masukkan angka yang sesuai dengan nomor pilihan menu:')
@@ -18,20 +21,20 @@ while True:
         continue
     
     if pilih == 1:
-        hasil_tambah = menu_tambah_barang()
+        hasil_tambah = inventory.menu_tambah_barang()
         daftar_inventaris.append(hasil_tambah)
         
     elif pilih == 2:
-        update_stok()
+        inventory.update_stok()
 
     elif pilih == 3:
-        hapus_barang()
+        inventory.hapus_barang()
         
     elif pilih == 4:
-        tampilkan_daftar()
+        inventory.tampilkan_daftar()
         
     elif pilih == 5:
-        simpan_file_lokal()
+        inventory.simpan_file_lokal()
 
     elif pilih == 0:
         print('keluar program') 
