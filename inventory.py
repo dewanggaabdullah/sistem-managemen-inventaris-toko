@@ -1,9 +1,14 @@
 #class
-
 class Barang:
     def __init__(self, barang, stok):
         self.barang = barang
         self.stok = stok
+
+    def __str__(self):
+        return f'Nama barang: {self.barang} - stok: {self.stok}'
+
+    def __repr__(self):
+        return self.__str__()
 
     def tambah_barang(self, jumlah):
         self.stok += jumlah
@@ -11,7 +16,7 @@ class Barang:
 #menu fitur
 
 def menu_tambah_barang():
-    print('>>> fitur tambah barang <<<')  
+    print('___fitur tambah barang___')  
 
     while True:
         try: 
@@ -34,7 +39,8 @@ def hapus_barang():
 
 def tampilkan_daftar():
     from storage import daftar_inventaris
-    print('>>> tampilan daftar barang <<<')
+    print('___tampilan daftar barang___')
+    
     if not daftar_inventaris:
         print('daftar kosong...')
     else:
