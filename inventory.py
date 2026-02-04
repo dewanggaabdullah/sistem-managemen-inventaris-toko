@@ -33,7 +33,12 @@ def hapus_barang():
     print('masih di develop')
 
 def tampilkan_daftar():
-    print('masih di develop')
+    from storage import daftar_inventaris
+    print('>>> tampilan daftar barang <<<')
+    if not daftar_inventaris:
+        print('daftar kosong...')
+    else:
+        print(daftar_inventaris)
 
 def simpan_file_lokal():
     print('masih di develop')

@@ -1,7 +1,6 @@
 import os
 import json
 
-
 FILE_NAME = 'data.json'
 
 def simpan_data(daftar_barang):
@@ -19,6 +18,22 @@ def simpan_data(daftar_barang):
             stok = getattr(item, 'stok', getattr(item, 'jumlah_stok', None))
 
         data_to_save.append({"nama": name, "stok": stok})
+
+    try:
+        with open(FILE_NAME, "w", encoding="utf-8") as f:
+            json.dump(data_to_save, f, indent=4, ensure_ascii=False)
+    except TypeError as e:
+        print('ada tipe data yang salah selagi mengisi JSON: {e}')
+        return False
+    except (OSError, IOError) as e:
+        print('os dan io error selagi menambahkan ke JSON: {e}')
+        return False
+    except Exception as e:
+        print('ada kesalahan yang belum diketahui,hubungi developer buat memberi saran lewat komentar:), {e}')
+        return False
+
+    print('data berhasil disimpan ke ->', FILE_NAME)
+    return True
 
 def muat_data():
     if not os.path.exists(FILE_NAME):
