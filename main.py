@@ -21,14 +21,14 @@ while True:
         continue
     
     if pilih == 1:
-        hasil_tambah = inventory.menu_tambah_barang()
+        hasil_tambah = inventory.fitur_tambah_barang()
         daftar_inventaris.append(hasil_tambah)
         
     elif pilih == 2:
         inventory.update_stok()
 
     elif pilih == 3:
-        inventory.hapus_barang()
+        inventory.fitur_hapus_barang()
         
     elif pilih == 4:
         inventory.tampilkan_daftar()
