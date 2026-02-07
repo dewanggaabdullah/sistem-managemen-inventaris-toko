@@ -28,9 +28,13 @@ while True:
         inventory.update_stok()
 
     elif pilih == 3:
-        inventory.fitur_hapus_barang()
+        print('___hapus barang dari daftar___')
+        while True:
+            data = input('apa barang yang ingin dihapus? \n>>> ')
+            inventory.fitur_hapus_barang(nama_barang)
         
     elif pilih == 4:
+        print('___tampilan daftar barang___')
         inventory.tampilkan_daftar()
         
     elif pilih == 5:

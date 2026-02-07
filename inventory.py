@@ -14,10 +14,7 @@ class Barang:
         self.stok += jumlah
 
     def hapus_barang(self, jumlah):
-        konversi = jumlah == 0
-        self.barang == konversi
-        self.stok == konversi
-
+        self.stok -= jumlah
 
 #menu fitur
 
@@ -40,28 +37,18 @@ def fitur_tambah_barang():
 def update_stok():
     print('masih di develop')
 
-def fitur_hapus_barang():
+def fitur_hapus_barang(nama_barang):
     from storage import daftar_inventaris
-    print('___fitur hapus barang___')
+    from storage import data
 
-    while True:
-        try: 
-            input_user = input('masukkan nama barang yang ingin dihapus >>> ')
-            hapus_barang_user = input_user
-
-            if daftar_inventaris <= 0:
-                print('tidak ada yang bisa dihapus')
-            elif daftar_inventaris >= 0:
-                if daftar_inventaris == hapus_barang_user:
-                    print('berhasil menghapus data:')
-                    print(Barang(hapus_barang_user) == 0)
-        except ValueError:
-            print('data tidak ada di daftar...')
-
+    if data in daftar_inventaris:
+        daftar_inventaris.pop(nama_barang)
+        print('berhasil hapus: ',nama_barang)
+    else:
+        print('barang tidak ditemukan...')
 
 def tampilkan_daftar():
     from storage import daftar_inventaris
-    print('___tampilan daftar barang___')
     
     if not daftar_inventaris:
         print('daftar kosong...')
