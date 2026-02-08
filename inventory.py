@@ -19,31 +19,54 @@ class Barang:
 #menu fitur
 
 def fitur_tambah_barang():
-    print('___fitur tambah barang___')  
+    from main import barang_ditambah
+    from main import jumlah_stok 
 
-    while True:
-        try: 
-            nama_barang = input('masukkan nama barang >>> ')
-            jumlah_stok = int(input('masukkan jumlah stok >>> '))
-
-            if nama_barang and jumlah_stok >= 0:
-                print('berhasil memasukkan data:')
-                print(f'nama barang: {nama_barang}')
-                print(f'jumlah stok: {jumlah_stok}')
-                return Barang(nama_barang, jumlah_stok)
-        except ValueError:
-            print('harap isi dengan benar')
+    if barang_ditambah and jumlah_stok >= 0:
+        print('berhasil memasukkan data:')
+        print(f'nama barang: {barang_ditambah}')
+        print(f'jumlah stok: {jumlah_stok}')
+        return Barang(barang_ditambah, jumlah_stok)
+    else:
+        print('harap isi nama dan stok dengan benar...!')
     
 def update_stok():
-    print('masih di develop')
-
-def fitur_hapus_barang(nama_barang):
     from storage import daftar_inventaris
-    from storage import data
 
-    if data in daftar_inventaris:
-        daftar_inventaris.pop(nama_barang)
-        print('berhasil hapus: ',nama_barang)
+    while True:
+        try:
+            nama_barang = input('masukkan nama barang yang ingin di upgrade \n>>> ')
+            stok = int(input('masukkan jumlah stok yang baru \n>>> '))
+        except ValueError:
+            print ('harap isi dengan benar')
+        if daftar_inventaris == nama_barang and stok:
+            print('berhasil memperbarui stok barang')
+            print(inventory.update_stok())
+            daftar = daftar_inventaris['nama_barang'] == stok
+            print (daftar)
+            return daftar_inventaris['nama_barang'] == stok
+
+        else:
+            print('barang atau stok tidak ada.')
+            return 
+
+def fitur_hapus_barang(barang_dihapus):
+    from storage import daftar_inventaris
+
+    if not daftar_inventaris:
+        print('daftar kosong...')
+        return
+
+    if not barang_dihapus:
+        print('nama barang tidak boleh kosong...')
+        return
+
+    if barang_dihapus in daftar_inventaris:
+        try:
+            daftar_inventaris.remove(barang_dihapus)
+            print('berhasil hapus: ',barang_dihapus)
+        except ValueError:
+            print('barang tidak ditemukan...')
     else:
         print('barang tidak ditemukan...')
 
@@ -52,6 +75,7 @@ def tampilkan_daftar():
     
     if not daftar_inventaris:
         print('daftar kosong...')
+        return
     else:
         print(daftar_inventaris)
 

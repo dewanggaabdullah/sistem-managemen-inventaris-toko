@@ -18,19 +18,25 @@ while True:
         pilih = int(input('>>> '))
     except ValueError:
         print('angka yang diberikan harus berupa angka!')
+    except EOFError:
         continue
     
     if pilih == 1:
-        hasil_tambah = inventory.fitur_tambah_barang()
-        daftar_inventaris.append(hasil_tambah)
+        print('___fitur tambah barang___') 
+        try:
+            nama_tambah_barang = input('masukkan nama barang >>> ')
+            jumlah_stok = int(input('masukkan jumlah stok >>> '))
+        except ValueError:
+            print('harap isi dengan benar')
         
     elif pilih == 2:
-        inventory.update_stok()
+        print('___fitur update stok___')
+        
 
     elif pilih == 3:
         print('___hapus barang dari daftar___')
         while True:
-            data = input('apa barang yang ingin dihapus? \n>>> ')
+            nama_barang = input('apa barang yang ingin dihapus? \n>>> ')
             inventory.fitur_hapus_barang(nama_barang)
         
     elif pilih == 4:
