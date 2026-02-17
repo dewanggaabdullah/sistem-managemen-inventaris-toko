@@ -23,21 +23,22 @@ while True:
     
     if pilih == 1:
         print('___fitur tambah barang___') 
-        try:
-            nama_tambah_barang = input('masukkan nama barang >>> ')
-            jumlah_stok = int(input('masukkan jumlah stok >>> '))
-        except ValueError:
-            print('harap isi dengan benar')
+        inventory.fitur_tambah_barang()
         
     elif pilih == 2:
         print('___fitur update stok___')
+        try:
+            nama_barang = input('masukkan nama barang yang ingin di upgrade \n>>> ')
+            stok_baru = int(input('masukkan jumlah stok yang baru \n>>> '))
+            menu_pilihan_2 = inventory.update_stok(nama_barang, stok_baru)
+            print(menu_pilihan_2)
+        except ValueError:
+            print ('harap isi dengan benar')
         
-
     elif pilih == 3:
         print('___hapus barang dari daftar___')
-        while True:
-            nama_barang = input('apa barang yang ingin dihapus? \n>>> ')
-            inventory.fitur_hapus_barang(nama_barang)
+        nama_barang = input('apa barang yang ingin dihapus? \n>>> ')
+        inventory.fitur_hapus_barang(nama_barang)
         
     elif pilih == 4:
         print('___tampilan daftar barang___')
