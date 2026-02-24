@@ -1,51 +1,119 @@
-import inventory
-from storage import daftar_inventaris
+import instance
 
 def buka_menu():
     print('>>> SISTEM_MANAGEMEN_INVENTARIS_TOKO <<<')
     print('Silahkan masukkan angka yang sesuai dengan nomor pilihan menu:')
-    print(' 1. Menambah barang ke inventaris')
-    print(' 2. Mengupdate stok barang')
-    print(' 3. Menghapus barang')
-    print(' 4. Menampilkan daftar barang')
-    print(' 5. Menyimpan dan memuat data dari file lokal')
-    print(' 0. keluar')
+    print(' 1. Tambah barang ke inventaris')
+    print(' 2. Update stok barang')
+    print(' 3. Kurangi stok barang')
+    print(' 4. Hapus barang')
+    print(' 5. Tampilkan daftar barang')
+    print(' 6. Simpan dan memuat data dari file lokal')
+    print(' 0. Keluar')
+
+def fitur_tambah_barang():
+    print('___fitur tambah barang___')
+    while True:
+        try:
+            barang_baru = 'beras' #input('masukkan nama barang \n >>> ')
+            stok_awal = 12 #int(input('masukkan jumlah stok \n >>> '))
+            break
+        except ValueError:
+            print('harap isi dengan benar')
+
+    if not barang_baru and stok_awal:
+        raise ValueError('harap isi stok dengan benar')
+    if barang_baru and stok_awal in instance._db:
+        raise NameError('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
+    else:
+        print('berhasil memasukkan data:')
+        instance.tambah_barang_ke_sistem(barang_baru, stok_awal)
+        print(f'nama barang: {barang_baru} \njumlah stok: {stok_awal}')
+        print('--proses selesai--')
+        
+def fitur_update_stok():
+    print('___fitur update stok___')
+    while True:
+        try:
+            barang = 'beras' #input('masukkan nama barang buat update stok \n >>> ')
+            stok_baru = 10 #int(input('masukkan jumlah stok baru \n >>> '))
+            break
+        except ValueError:
+            print('harap isi dengan benar')       
+
+    if not barang:
+        raise FileNotFoundError(f"{Barang} tidak ditemukan")
+
+    if stok_baru < 0:
+        raise ValueError('jumlah stok tidak boleh minus')
+
+    kelola = inventory.Kelola(barang, stok_baru)
+    kelola.update_stok(barang, stok_baru)
+    print(f'barang bernama: {barang}, berhasil diupdate dengan jumlah stok baru sebanyak: {stok_baru}.')
+        
+def fitur_kurangi_stok():
+    while True:
+        barang = 'beras' #input('masukkan nama barang yang sudah ada untuk dihapus \n >>> ')
+        stok_berkurang = 3 #input('masukkan jumlah stok yang ingin dikurangi \n >>> ')
+        break
+
+    if not barang:
+        raise FileNotFoundError(f"{Barang} tidak ditemukan")
+
+    kelola = inventory.Kelola(barang, stok_berkurang)
+    kelola.kurang_stok(stok_berkurang)
+    print(f'stok dari barang: {barang}, telah dikurangi 3 dari jumlah totalnya,silahkan buka menu tampilan daftar barang untuk melihatnya.')
+        
+def fitur_hapus_barang():
+    print("___fitur hapus barang___")
+    while True:
+        barang = 'beras' #input('silahkan masukkan nama barang yang ingin dihapus dari daftar inventaris')
+        break
+
+    if not barang:
+        raise FileNotFoundError(f'{barang} tidak ditemukan')
+
+    data = inventory.Data()
+    data.hapus_barang(barang)
+    print(f'barang bernama "{barang}" berhasil dihapus,silahkan cek menu tampilkan daftar barang untuk melihatnya')
+        
+def fitur_tampilkan_daftar():
+    data = instance.tampilkan_output()
+    print(data)
+
+def simpan_file_lokal():
+    print('dalam develop')
+
+#
 
 while True:
     buka_menu()
-
     try:  
         pilih = int(input('>>> '))
     except ValueError:
-        print('angka yang diberikan harus berupa angka!')
+        print('input yang diberikan harus berupa angka')
+    except NameError:
+        print('tidak perlu mengetik huruf spesial, cukup angka saja')
     except EOFError:
         continue
     
-    if pilih == 1:
-        print('___fitur tambah barang___') 
-        inventory.fitur_tambah_barang()
+    if pilih == 1: 
+        fitur_tambah_barang()
         
     elif pilih == 2:
-        print('___fitur update stok___')
-        try:
-            nama_barang = input('masukkan nama barang yang ingin di upgrade \n>>> ')
-            stok_baru = int(input('masukkan jumlah stok yang baru \n>>> '))
-            menu_pilihan_2 = inventory.update_stok(nama_barang, stok_baru)
-            print(menu_pilihan_2)
-        except ValueError:
-            print ('harap isi dengan benar')
+        fitur_update_stok()
         
     elif pilih == 3:
-        print('___hapus barang dari daftar___')
-        nama_barang = input('apa barang yang ingin dihapus? \n>>> ')
-        inventory.fitur_hapus_barang(nama_barang)
-        
+        fitur_kurangi_stok()
+    
     elif pilih == 4:
-        print('___tampilan daftar barang___')
-        inventory.tampilkan_daftar()
-        
+        fitur_hapus_barang()
+
     elif pilih == 5:
-        inventory.simpan_file_lokal()
+        fitur_tampilkan_daftar()
+        
+    elif pilih == 6:
+        simpan_file_lokal()
 
     elif pilih == 0:
         print('keluar program') 
