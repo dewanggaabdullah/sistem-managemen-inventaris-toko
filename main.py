@@ -1,3 +1,4 @@
+import inventory
 import instance
 
 def buka_menu():
@@ -16,21 +17,23 @@ def fitur_tambah_barang():
     while True:
         try:
             barang_baru = 'beras' #input('masukkan nama barang \n >>> ')
-            stok_awal = 12 #int(input('masukkan jumlah stok \n >>> '))
+            stok_awal = 14 #int(input('masukkan jumlah stok \n >>> '))
             break
         except ValueError:
             print('harap isi dengan benar')
+    try:
+        if barang_baru in instance._db.daftar_inventaris:
+            raise NameError('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
+    except NameError as e:
+        print('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
 
-    if not barang_baru and stok_awal:
-        raise ValueError('harap isi stok dengan benar')
-    if barang_baru and stok_awal in instance._db:
-        raise NameError('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
     else:
+        print()
         print('berhasil memasukkan data:')
         instance.tambah_barang_ke_sistem(barang_baru, stok_awal)
         print(f'nama barang: {barang_baru} \njumlah stok: {stok_awal}')
         print('--proses selesai--')
-        
+
 def fitur_update_stok():
     print('___fitur update stok___')
     while True:
@@ -49,9 +52,11 @@ def fitur_update_stok():
 
     kelola = inventory.Kelola(barang, stok_baru)
     kelola.update_stok(barang, stok_baru)
+    print()
     print(f'barang bernama: {barang}, berhasil diupdate dengan jumlah stok baru sebanyak: {stok_baru}.')
         
 def fitur_kurangi_stok():
+    print('___fitur kurangi stok___')
     while True:
         barang = 'beras' #input('masukkan nama barang yang sudah ada untuk dihapus \n >>> ')
         stok_berkurang = 3 #input('masukkan jumlah stok yang ingin dikurangi \n >>> ')
@@ -62,6 +67,7 @@ def fitur_kurangi_stok():
 
     kelola = inventory.Kelola(barang, stok_berkurang)
     kelola.kurang_stok(stok_berkurang)
+    print()
     print(f'stok dari barang: {barang}, telah dikurangi 3 dari jumlah totalnya,silahkan buka menu tampilan daftar barang untuk melihatnya.')
         
 def fitur_hapus_barang():
@@ -75,14 +81,15 @@ def fitur_hapus_barang():
 
     data = inventory.Data()
     data.hapus_barang(barang)
-    print(f'barang bernama "{barang}" berhasil dihapus,silahkan cek menu tampilkan daftar barang untuk melihatnya')
-        
+    
 def fitur_tampilkan_daftar():
+    print('___fitur tampilkan daftar inventaris toko___')
     data = instance.tampilkan_output()
+    print()
     print(data)
 
 def simpan_file_lokal():
-    print('dalam develop')
+    print('masih di develop')
 
 #
 

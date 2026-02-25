@@ -36,10 +36,15 @@ class Data:
         self.daftar_inventaris[instance.barang] = instance
             
     def hapus_barang(self, barang):
-        if nama_barang in self.daftar_inventaris:
-            del self.daftar_inventaris[barang]
-        else:
-            raise FileNotFoundError(f'kata kunci {barang} tidak ditemukan dalam daftar,coba lihat ___menu tampilkan daftar barang___')
+        try:
+            if barang in self.daftar_inventaris:
+                del self.daftar_inventaris[barang]
+                print(f'barang bernama "{barang}" berhasil dihapus,silahkan cek menu tampilkan daftar barang untuk melihatnya')
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            print(f'kata kunci {barang} tidak ditemukan dalam daftar,coba lihat ___menu tampilkan daftar barang___')
+
 
     def tampilkan_daftar(self, daftar_inventaris = None):
         if not self.daftar_inventaris:
