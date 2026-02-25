@@ -16,16 +16,16 @@ def fitur_tambah_barang():
     print('___fitur tambah barang___')
     while True:
         try:
-            barang_baru = 'beras' #input('masukkan nama barang \n >>> ')
-            stok_awal = 14 #int(input('masukkan jumlah stok \n >>> '))
+            barang_baru = input('masukkan nama barang \n >>> ')
+            stok_awal = int(input('masukkan jumlah stok \n >>> '))
             break
+
+            if barang_baru in instance._db.daftar_inventaris:
+                raise NameError('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
         except ValueError:
             print('harap isi dengan benar')
-    try:
-        if barang_baru in instance._db.daftar_inventaris:
-            raise NameError('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
-    except NameError as e:
-        print('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
+        except NameError:
+            print('barang sudah ada,silahkan lihat di menu tampilkan daftar barang')
 
     else:
         print()
@@ -38,8 +38,8 @@ def fitur_update_stok():
     print('___fitur update stok___')
     while True:
         try:
-            barang = 'beras' #input('masukkan nama barang buat update stok \n >>> ')
-            stok_baru = 10 #int(input('masukkan jumlah stok baru \n >>> '))
+            barang = input('masukkan nama barang buat update stok \n >>> ')
+            stok_baru = int(input('masukkan jumlah stok baru \n >>> '))
             break
         except ValueError:
             print('harap isi dengan benar')       
@@ -58,26 +58,32 @@ def fitur_update_stok():
 def fitur_kurangi_stok():
     print('___fitur kurangi stok___')
     while True:
-        barang = 'beras' #input('masukkan nama barang yang sudah ada untuk dihapus \n >>> ')
-        stok_berkurang = 3 #input('masukkan jumlah stok yang ingin dikurangi \n >>> ')
+        barang = input('masukkan nama barang yang sudah ada untuk di daftar inventaris \n >>> ')
+        stok_berkurang = int(input('masukkan jumlah stok yang ingin dikurangi \n >>> '))
         break
 
-    if not barang:
-        raise FileNotFoundError(f"{Barang} tidak ditemukan")
+        try:
+            if not barang:
+                raise FileNotFoundError(f"{barang} tidak ditemukan")
+        except FileNotFoundError as e:
+            print(f"{barang} tidak ditemukan di dalam daftar inventaris")
 
     kelola = inventory.Kelola(barang, stok_berkurang)
     kelola.kurang_stok(stok_berkurang)
     print()
-    print(f'stok dari barang: {barang}, telah dikurangi 3 dari jumlah totalnya,silahkan buka menu tampilan daftar barang untuk melihatnya.')
+    print(f'stok dari barang: {barang}, telah dikurangi {stok_berkurang} dari jumlah totalnya,silahkan buka menu tampilan daftar barang untuk melihatnya.')
         
 def fitur_hapus_barang():
     print("___fitur hapus barang___")
     while True:
-        barang = 'beras' #input('silahkan masukkan nama barang yang ingin dihapus dari daftar inventaris')
+        barang = input('silahkan masukkan nama barang yang ingin dihapus dari daftar inventaris \n >>> ')
         break
 
-    if not barang:
-        raise FileNotFoundError(f'{barang} tidak ditemukan')
+        try:
+            if not barang:
+                raise FileNotFoundError(f'{barang} tidak ditemukan')
+        except FileNotFoundError as e:
+            print(f'{barang} tidak ditemukan')
 
     data = inventory.Data()
     data.hapus_barang(barang)
