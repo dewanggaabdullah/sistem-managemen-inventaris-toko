@@ -26,28 +26,7 @@ Project ini dibuat sebagai latihan backend fundamental dengan fokus pada struktu
 
 #### struktur dan logika code
 
-1. sistem_managemen_inventaris_toko/
-    ├── main.py             # alur & menu
-    ├── inventory.py        # logic bisnis
-    ├── storage.py          # simpan / load data
-    ├── utils.py            # helper & validasi
-    ├── data.json           # data
-    └── README.md
-
-2. Pola pikir project:
-
-   - main.py tidak boleh mikir
-
-   - inventory.py tidak boleh input()
-
-   - storage.py tidak tahu menu
-
-   - Setiap file punya satu tanggung jawab
-
-    Kalau ini dilanggar, project tetap jalan... tapi akan busuk di dalam.
-
-
-3. Jenis kode yang dipakai:
+1. Jenis kode yang dipakai:
 
    1. kontrol alur
 
