@@ -7,19 +7,17 @@ Project ini dibuat sebagai latihan backend fundamental dengan fokus pada struktu
 ---
 
 ## Fitur Utama
-
+s
 - Menambah barang ke inventaris
 - Mengupdate stok barang
 - Menghapus barang
 - Menampilkan daftar barang
-- Menyimpan dan memuat data dari file lokal
 
 ---
 
 ### Teknologi yang Digunakan
 
 - Python 3
-- File-based storage (JSON)
 - Git & GitHub
 
 ---
@@ -34,11 +32,7 @@ Project ini dibuat sebagai latihan backend fundamental dengan fokus pada struktu
 
    3. model data
 
-   4. penyimpanan
-
-   5. validasi
-
-   6. utilitas
+   4. validasi
 
 ---
 
@@ -52,7 +46,7 @@ Project ini dibuat sebagai latihan backend fundamental dengan fokus pada struktu
         ketik>>> "cd sistem_managemen_inventaris_toko"
 
 4. jalankan program melalui file utama
-        ketik>>> "python main.py"
+        ketik>>> "python main.py" atau "py main.py"
 
 ---
 

@@ -1,31 +1,60 @@
 import inventory
 
-_db = inventory.Data()
+def fitur_tambah_barang():
+    print('__fitur tambah barang__')
+    while True:
+        try:
+            barang_baru = 'dewa' #input('nama barang\n >>')
+            stok_baru = 3 #int(input('jumlah stok\n >>'))
+        
+            if barang_baru in inventory.Kelola.daftar_inventaris:
+                raise KeyError('barang sudah ada...')
+            break
+        except ValueError as e:
+            print('input salah...')
+        #except Exception as e:
+            #print('ada kesalahan tak terduga')
+    
+    print('tambah barang berhasil...')
+    print(f'nama barang: {barang_baru}')
+    print(f'jumlah stok: {stok_baru}')
+    d = inventory.Kelola(barang_baru, stok_baru)
+    d.tambah_barang()
 
-def objek_tambah_barang(barang_baru, stok_awal):
-    try:
-        kelola = inventory.Kelola(barang_baru, stok_awal)
-        _db.masukkan_data(kelola)
-    except ValueError as e:
-        print('barang sudah ada, atau ada kesalahan dalam input yang anda berikan ')
-    except Exception as e:
-        print('error tidak diketahui,silahkan beri tau developer buat diperbaiki')
+def fitur_update_stok():
+    print('__fitur update stock__')
+    while True:
+        try:
+            barang = input('masukkan nama barang yang ada buat di update stocknya\n>> ')
+            stok_baru = int(input('masukkan jumlah stok baru\n>> '))
+            if barang not in inventory.Kelola.daftar_inventaris:
+                raise KeyError
+            break
+        except KeyError as e:
+            print('barang tidak ada di dalam daftar...')
+        except ValueError as e:
+            print('masukkan angka yang valid...')
+        
+    if barang in inventory.Kelola.daftar_inventaris:
+        inventory.Kelola.daftar_inventaris[barang] = stok_baru
 
-def objek_update_stok(barang, stok):
-    try:
-        kelola = inventory.Kelola(barang_baru, stok_awal)
-        _db.masukkan_data(kelola)
-    except ValueError as e:
-        print('barang sudah ada, atau ada kesalahan dalam input yang anda berikan ')
-    except Exception as e:
-        print('error tidak diketahui,silahkan beri tau developer buat diperbaiki')
 
-def objek_kurangi_stok_barang(barang, stok):
-    print('masih dalam develop')
 
-def objek_hapus_barang(barang, stok):
-    print('masih dalam develop')
 
-def objek_tampilkan_daftar():
-    return _db.tampilkan_daftar()
 
+
+
+
+
+
+
+
+
+
+
+
+
+def fitur_tampilkan_daftar():
+    print('__fitur tampilkan daftar inventaris__')
+    for barang, stok in inventory.Kelola.daftar_inventaris.items():
+        print(f'nama barang: {barang}\njumlah stok: {stok}')
