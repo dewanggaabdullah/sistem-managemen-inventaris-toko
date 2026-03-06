@@ -7,5 +7,4 @@ class Kelola:
 
     def tambah_barang(self):
         Kelola.daftar_inventaris[self.barang] = self.stok
-
-    
+        

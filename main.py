@@ -28,10 +28,10 @@ while True:
         instance.fitur_update_stok()
         
     elif pilih == 3:
-        pass #instance.fitur_kurangi_stok()
+        instance.fitur_kurangi_stok()
     
     elif pilih == 4:
-        pass #instance.fitur_hapus_barang()
+        instance.fitur_hapus_barang()
 
     elif pilih == 5:
         instance.fitur_tampilkan_daftar()

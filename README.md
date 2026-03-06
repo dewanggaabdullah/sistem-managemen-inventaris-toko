@@ -7,7 +7,7 @@ Project ini dibuat sebagai latihan backend fundamental dengan fokus pada struktu
 ---
 
 ## Fitur Utama
-s
+
 - Menambah barang ke inventaris
 - Mengupdate stok barang
 - Menghapus barang
@@ -15,14 +15,14 @@ s
 
 ---
 
-### Teknologi yang Digunakan
+### Teknologi Yang Digunakan
 
 - Python 3
 - Git & GitHub
 
 ---
 
-#### struktur dan logika code
+#### Struktur Dan Logika Code
 
 1. Jenis kode yang dipakai:
 
