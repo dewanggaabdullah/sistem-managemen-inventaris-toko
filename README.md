@@ -8,10 +8,13 @@ Project ini dibuat sebagai latihan backend fundamental dengan fokus pada struktu
 
 ## Fitur Utama
 
-- Menambah barang ke inventaris
-- Mengupdate stok barang
-- Menghapus barang
-- Menampilkan daftar barang
+1. Tambah Barang
+2. Ubah Stok
+3. tambah pasokan stok
+4. Kurangi Stok
+5. Hapus Barang
+6. Lihat Daftar Barang
+
 
 ---
 
