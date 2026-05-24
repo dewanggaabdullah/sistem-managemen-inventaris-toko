@@ -1,7 +1,7 @@
 import json
 import os
 
-FILE_PATH = 'storage.json'
+FILE_PATH = 'data/storage.json'
 
 def muat_data():
     """Membaca data dari berkas JSON saat program pertama kali berjalan"""
@@ -19,7 +19,7 @@ def muat_data():
 
 def simpan_data(data):
     """Menyimpan dictionary inventaris terbaru ke dalam berkas JSON"""
-    with open(FILE_PATH, 'W') as file:
+    with open(FILE_PATH, 'w') as file:
         # indent=4 bikin format penulisan JSON di file jadi rapi (tidak sebaris)
         json.dump(data, file, indent=4)
 
