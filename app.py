@@ -1,56 +1,93 @@
-from fastapi import FastAPI, HTTPException
-import inventory  # Mengimpor helper JSON milikmu (muat_data & simpan_data)
+from fastapi import FastAPI, HTTPException, status
+from pydantic import BaseModel, Field
+import inventory  # Mengimpor helper JSON (muat_data & simpan_data)
 
 # Inisialisasi FastAPI
 app = FastAPI(title="Sistem Manajemen Inventaris Toko API")
 
-# 1. LIHAT DAFTAR BARANG (GET)
+#============================================================================================
+#                                  DATA SCHEMA (PYNDANTIC)
+#============================================================================================
+
+# pakai pydantic untuk validasi tipe data badan request
+class BarangSchema(BaseModel):
+    nama: str = Field(..., min_length=1, description="Nama barang tidak boleh kosong")
+    stok: int = Field(..., ge=0,description='stok baru tidak boleh negatif')
+
+class UpdateStockSchema(BaseModel):
+    stock_baru: int = Field(..., ge=0, description='Stok baru tidak boleh bernilai negatif')
+
+#============================================================================================
+#                                ENDPOINTS (CONTROLLER LAYER)
+#============================================================================================
+
+# LIHAT SEMUA DAFTAR BARANG (GET)
 @app.get("/inventaris")
 def api_lihat_daftar():
     daftar_inventaris = inventory.muat_data()
     return daftar_inventaris  # FastAPI otomatis mengubah dictionary jadi format JSON API
 
-# 2. TAMBAH BARANG BARU (POST)
-@app.post("/inventaris")
-def api_tambah_barang(nama: str, stok: int):
+# TAMBAH BARANG BARU (POST)
+@app.post("/inventaris", status_code=status.HTTP_201_CREATED)
+def api_tambah_barang(payload: BarangSchema):
     daftar_inventaris = inventory.muat_data()
+
+    nama_barang = payload.nama.strip()
     
     # Validasi: jika barang sudah ada
-    if nama in daftar_inventaris:
-        raise HTTPException(status_code=400, detail="Barang sudah ada di dalam sistem!")
+    if nama_barang in daftar_inventaris:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Barang sudah ada di dalam sistem!"
+        )
         
-    # Masukkan data baru ke dictionary dan simpan ke JSON
-    daftar_inventaris[nama] = {"stok": stok}
+    # Masukkan data baru ke nama barang
+    daftar_inventaris[nama_barang] = {"stok": payload.stok}
     inventory.simpan_data(daftar_inventaris)
     
-    return {"status": "sukses", "pesan": f"Berhasil menambahkan {nama} dengan stok {stok}"}
+    return {
+        "status": "sukses",
+        "pesan": f"Berhasil menambahkan {nama_barang}"
+     }
 
-# 3. ATUR ULANG STOK / OVERRIDE (PUT)
-@app.put("/inventaris/{nama}")
-def api_update_stok(nama: str, stok_baru: int):
+# ATUR ULANG STOK / OVERRIDE (PUT)
+@app.put("/inventaris/{nama}", status_code=status.HTTP_200_OK)
+def api_update_stok(nama: str, payload: UpdateStockSchema):
     daftar_inventaris = inventory.muat_data()
     
     # Validasi: Pastikan barangnya ada dulu di JSON sebelum di-update
     if nama not in daftar_inventaris:
-        raise HTTPException(status_code=404, detail="Barang tidak ditemukan!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Barang tidak ditemukan!"
+        )
         
-    # Timpa stok lama dengan stok baru
-    daftar_inventaris[nama]["stok"] = stok_baru
+    # Mengupdate stok berdasarkan data dari request body
+    daftar_inventaris[nama]["stok"] = payload.stok_baru
     inventory.simpan_data(daftar_inventaris)
     
-    return {"status": "sukses", "pesan": f"Stok {nama} berhasil diubah menjadi {stok_baru}"}
+    return {
+        "status": "sukses",
+        "pesan": f"Stok {nama} berhasil diubah menjadi {payload.stok_baru}"
+    }
 
-# 4. HAPUS BARANG (DELETE)
-@app.delete("/inventaris/{nama}")
+# HAPUS BARANG (DELETE)
+@app.delete("/inventaris/{nama}", status_code=status.HTTP_200_OK)
 def api_hapus_barang(nama: str):
     daftar_inventaris = inventory.muat_data()
     
     # Validasi: Pastikan barangnya ada sebelum dihapus
     if nama not in daftar_inventaris:
-        raise HTTPException(status_code=404, detail="Barang tidak ditemukan!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Barang tidak ditemukan!"
+        )
         
     # Hapus key barang dari dictionary
     del daftar_inventaris[nama]
     inventory.simpan_data(daftar_inventaris)
     
-    return {"status": "sukses", "pesan": f"Berhasil menghapus {nama} dari inventaris"}
+    return {
+        "status": "sukses",
+        "pesan": f"Berhasil menghapus {nama} dari inventaris"
+    }
