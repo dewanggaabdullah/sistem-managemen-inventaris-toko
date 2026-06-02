@@ -1,4 +1,4 @@
-import instance
+import engine
 import traceback
 
 def buka_menu():
@@ -25,12 +25,12 @@ while True:
         pilih = input_user
 
         pilihan_user = {
-            '1' : instance.tambah_barang,
-            '2' : instance.ubah_stok,
-            '3' : instance.tambah_stok,
-            '4' : instance.kurangi_stok,
-            '5' : instance.hapus_barang,
-            '6' : instance.lihat_daftar
+            '1' : engine.tambah_barang,
+            '2' : engine.ubah_stok,
+            '3' : engine.tambah_stok,
+            '4' : engine.kurangi_stok,
+            '5' : engine.hapus_barang,
+            '6' : engine.lihat_daftar
         }
 
         if pilih in pilihan_user:

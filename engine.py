@@ -75,11 +75,15 @@ def tambah_stok():
 
 # 4
 def kurangi_stok():
+
+    persediaan = inventory.muat_data()
+
     print('__KURANG STOK__')
+    
     while True:
         try:
-            barang = input('masukkan nama barang yang ingin dikurangi\n>> ') 
-            stok_berkurang = int(input('masukkan jumlah stok yang berkurang\n>> '))
+            barang = input('masukkan nama barang yang ingin dikurangi\n>> ').strip() 
+            stok_berkurang = int(input('masukkan jumlah stok yang berkurang\n>> ')).strip()
 
             if barang not in inventory.Kelola.daftar_inventaris:
                 print('\nproses invalid...')
@@ -96,21 +100,38 @@ def kurangi_stok():
 
 # 5
 def hapus_barang():
-    print('__HAPUS BARANG__')
-    while True:
-        try:
-            barang = input('masukkan nama barang yang ingin dihapus\n>> ')
 
-            if barang not in inventory.Kelola.daftar_inventaris:
-                print('\nproses invalid...')
-                print('barang tidak ada di dalam daftar')
+    persediaan = inventory.muat_data()
+
+    print('__HAPUS BARANG__')
+
+    while True:
+        barang = input('masukkan nama barang yang ingin dihapus\n>> ').strip()
+
+        if not barang:
+            print('\nproses invalid... nama barang tidak boleh kosong.')
+            continue
+
+        if barang in persediaan:
+            validasi = input(f'apakah anda benar benar ingin menghapus barang bernama "{barang}"?\n [y/n] >>> ').strip().lower()
+
+            if not validasi or validasi not in ["y", "n"]:
+                print('\ntolong jawab "y" untuk ya atau "n" untuk tidak.')
+                continue
+
+            elif validasi == 'y':
+                del persediaan[barang]
+                inventory.simpan_data(persediaan)
+                print(f'\nbarang bernama {barang} berhasil dihapus, silahkan lihat fitur daftar inventaris untuk melihatnya')
                 break
-            print(f'\nbarang bernama {barang} berhasil dihapus, silahkan lihat fitur daftar inventaris untuk melihatnya')
-            del inventory.Kelola.daftar_inventaris[barang]
-            break
-        except ValueError:
+
+            elif validasi == 'n':
+                print("\nbarang tidak dihapus, kembali ke menu.")
+                return            
+        else:
+            # PENTING: Jika barang TIDAK ADA di persediaan, beri tahu user lalu keluar
             print('\nproses invalid...')
-            print('harap masukkan input yang benar')
+            print('barang tidak ada di dalam daftar')
             break
 
 # 6
