@@ -1,58 +1,72 @@
-# Sistem Manajemen Inventaris Toko
+# Sistem Manajemen Inventaris Toko API
 
-Project ini adalah aplikasi berbasis Python untuk mengelola inventaris toko sederhana, meliputi pencatatan barang, pengelolaan stok, dan penyimpanan data secara lokal.
+Project ini adalah aplikasi backend berbasis RESTful API menggunakan **FastAPI** untuk mengelola inventaris toko secara efisien. Sistem ini menangani pencatatan barang, pengelolaan stok secara dinamis, validasi data yang ketat, dan penyimpanan data lokal yang *persistent*.
 
-Project ini dibuat sebagai latihan backend fundamental dengan fokus pada struktur kode, pemisahan tanggung jawab, dan praktik Git yang rapi.
-
----
-
-## Fitur Utama
-
-1. Tambah Barang
-2. Ubah Stok
-3. tambah pasokan stok
-4. Kurangi Stok
-5. Hapus Barang
-6. Lihat Daftar Barang
-
+Project ini dirancang sebagai portfolio backend dengan fokus pada arsitektur kode yang bersih (*Clean Architecture*), pemisahan tanggung jawab (*Separation of Concerns*), dan penerapan praktik Git yang profesional (*Conventional Commits*).
 
 ---
 
-### Teknologi Yang Digunakan
+## 🚀 Fitur Utama (RESTful Endpoints)
 
-- Python 3
-- Git & GitHub
-
----
-
-#### Struktur Dan Logika Code
-
-1. Jenis kode yang dipakai:
-
-   1. kontrol alur
-
-   2. aturan bisnis
-
-   3. model data
-
-   4. validasi
+Aplikasi ini mengimplementasikan operasi **CRUD** standar industri melalui HTTP Methods:
+1. **`GET /inventaris`** - Melihat seluruh daftar barang beserta jumlah stoknya.
+2. **`POST /inventaris`** - Menambahkan produk baru ke sistem menggunakan validasi *Request Body*.
+3. **`PUT /inventaris/{nama}`** - Memperbarui atau melakukan *override* stok barang yang sudah terdaftar.
+4. **`DELETE /inventaris/{nama}`** - Menghapus data barang secara permanen dari sistem penyimpanan.
 
 ---
 
-##### Cara Menjalankan Program
+## 🛠️ Teknologi Yang Digunakan
 
-1. Pastikan Python 3 sudah terinstall
-
-2. Clone repository ini ke komputer lokal
-
-3. masuk ke directori project
-        ketik>>> "cd sistem_managemen_inventaris_toko"
-
-4. jalankan program melalui file utama
-        ketik>>> "python main.py" atau "py main.py"
+- **Python 3.10+** - Bahasa pemrograman utama.
+- **FastAPI** - Framework modern dan cepat untuk membangun performant web API.
+- **Pydantic** - Library untuk validasi data tipe data dan manajemen skema request body.
+- **Uvicorn** - Server ASGI kilat untuk menjalankan aplikasi FastAPI.
+- **JSON** - Sebagai database lokal sederhana untuk persistensi data.
+- **Git & GitHub** - Untuk manajemen versi kode.
 
 ---
 
-###### Pertanyaan & Diskusi
+## 📂 Struktur & Arsitektur Kode
 
-Jika ada pertanyaan, kebingungan, atau saran perbaikan,silakan buka *Issues* di repository ini agar bisa dibahas secara terbuka.
+Proyek ini menerapkan konsep pemisahan lapisan tanggung jawab (*Layered Architecture*) untuk memastikan kode mudah dirawat dan dikembangkan:
+
+1. **Schema Layer (`pydantic.BaseModel`)**: Menangani validasi tipe data badan request sebelum masuk ke logic utama (misal: mencegah stok bernilai negatif lewat `Field(ge=0)`).
+2. **Controller/Routing Layer (`FastAPI Endpoints`)**: Menangani kontrol alur HTTP request, manajemen status code (`200 OK`, `201 Created`), dan penanganan error (`HTTPException`).
+3. **Data Access Layer (`inventory.py`)**: Bertindak sebagai modul I/O terpusat (*Source of Truth*) untuk memuat (*deserialize*) dan menyimpan (*serialize*) data ke file lokal `storage.json`.
+
+---
+
+## 🗺️ Roadmap Pengembangan (Future Plans)
+
+Agar pengembangan proyek tetap terarah dan terukur, berikut adalah tahapan pengembangan (*roadmap*) backend yang akan diimplementasikan ke depannya:
+
+### 📌 Fase 1: Konfigurasi Lingkungan & Keamanan Dasar
+- **Isolasi Environment:** Menggunakan Virtual Environment (`venv`) untuk mengisolasi semua dependencies proyek.
+- **Dependency Management:** Mengunci versi library menggunakan file `requirements.txt`.
+- **Environment Variables:** Mengamankan konfigurasi sensitif (seperti port atau database URL) ke dalam file `.env` menggunakan `python-dotenv`.
+
+### 📌 Fase 2: Migrasi ke SQL Database (Persistence Layer)
+- **Integrasi ORM:** Mengintegrasikan **SQLite** sebagai database lokal awal bersama **SQLModel** atau **SQLAlchemy**.
+- **Refactor Data Layer:** Mengubah fungsi I/O JSON menjadi *Database Session* yang aman (ACID Compliance).
+- **Database Migration:** Menerapkan **Alembic** untuk melacak dan mengelola perubahan struktur tabel database tanpa merusak data lama.
+
+### 📌 Fase 3: Fitur Relasional & Logika Bisnis Tambahan
+- **Histori Transaksi (Stock Log):** Membuat tabel `Transaksi` untuk mencatat otomatis setiap aktivitas stok masuk dan keluar beserta waktunya (*timestamp*).
+- **Kategori Barang:** Membuat tabel `Kategori` yang berelasi dengan tabel `Barang` (*One-to-Many*).
+
+### 📌 Fase 4: Otomatisasi Uji Coba & Kualitas Kode (QA)
+- **Automated Testing:** Menulis unit test menggunakan **`pytest`** dan `TestClient` FastAPI untuk menguji fungsionalitas API secara otomatis.
+- **Code Linter & Formatter:** Menerapkan **Ruff** atau **Black** untuk menjaga kerapian kode sesuai standar PEP 8 Python.
+
+---
+
+## 💻 Cara Menjalankan Program
+
+### 1. Prasyarat
+Pastikan Python 3.10+ sudah terinstal di sistem kamu.
+
+### 2. Kloning Repository & Masuk Direktori
+```bash
+git clone [https://github.com/username/sistem_managemen_inventaris_toko.git](https://github.com/username/sistem_managemen_inventaris_toko.git)
+cd sistem_managemen_inventaris_toko
