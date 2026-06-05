@@ -5,11 +5,11 @@ def tambah_barang():
     print('__TAMBAH BARANG BARU__')
 
     # 1. Ambil data inventaris terbaru dari berkas JSON
-    daftar_inventaris = inventory.muat_data()
+    persediaan = inventory.muat_data()
 
     barang_baru = input('nama barang\n >> ').strip()
 
-    if barang_baru in inventory.Kelola.daftar_inventaris:
+    if barang_baru in persediaan:
         print('\nproses invalid...')
         print('barang sudah ada')
         return
@@ -23,10 +23,10 @@ def tambah_barang():
 
     stok_baru = int(input_stok)
 
-    daftar_inventaris[barang_baru] = {"stok": stok_baru}
+    persediaan[barang_baru] = {"stok": stok_baru}
     # nanti bisa nambah label lain ke depannya, misal: "harga": 5000 
 
-    inventory.simpan_data(daftar_inventaris)
+    inventory.simpan_data(persediaan)
 
     print('tambah barang berhasil, ada persediaan baru dengan...')
     print(f'nama barang: {barang_baru}')
@@ -55,16 +55,20 @@ def ubah_stok():
 
 # 3
 def tambah_stok():
+
+    persediaan = inventory.muat_data()
+
     print('__TAMBAH STOK__')
     while True:
         try:
             barang = input('masukkan nama barang yang ingin ditambah\n>> ') 
             stok_tambahan = int(input('masukkan jumlah stok yang ditambahkan\n>> '))
 
-            if barang not in inventory.Kelola.daftar_inventaris:
+            if barang not in persediaan:
                 print('\nproses invalid...')
                 print(f'barang bernama {barang} tidak ditemukan di dalam daftar')
                 break
+
             print(f'\nstok dari barang bernama {barang} berhasil ditambahkan {stok_tambahan} stok')
             inventory.Kelola.daftar_inventaris[barang] += stok_tambahan
             break
@@ -75,28 +79,37 @@ def tambah_stok():
 
 # 4
 def kurangi_stok():
-
     persediaan = inventory.muat_data()
 
-    print('__KURANG STOK__')
+    print('\n__KURANG STOK__')
     
     while True:
-        try:
-            barang = input('masukkan nama barang yang ingin dikurangi\n>> ').strip() 
-            stok_berkurang = int(input('masukkan jumlah stok yang berkurang\n>> ')).strip()
+        barang = input('Masukkan nama barang\n>> ').strip()
 
-            if barang not in inventory.Kelola.daftar_inventaris:
-                print('\nproses invalid...')
-                print(f'\nbarang bernama {barang} tidak ditemukan di dalam daftar')
-                break
+        if barang not in persediaan:
+            print(f'Error: Barang "{barang}" tidak ditemukan. Silakan coba lagi.')
+            continue # Kembali ke awal loop untuk input ulang
             
-            print(f'\nstok dari barang bernama {barang} berhasil dikurangi sebanyak {stok_berkurang}')
-            inventory.Kelola.daftar_inventaris[barang] -= stok_berkurang
+        try:
+            stok_berkurang = int(input(f'Stok saat ini: {persediaan[barang]}. Masukkan jumlah pengurangan\n>> '))
+            
+            if stok_berkurang <= 0:
+                print('Jumlah pengurangan harus angka positif.')
+                continue
+            
+            if stok_berkurang > persediaan[barang]['stok']:
+                print(f'Gagal: Stok tidak cukup! Hanya tersedia {persediaan[barang]}.')
+                continue
+
+            persediaan[barang] -= stok_berkurang
+            
+            inventory.simpan_data(persediaan) 
+            
+            print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]}.')
             break
+            
         except ValueError:
-            print('\nproses invalid...')
-            print('\nharap masukkan input dengan benar')
-            break
+            print('Error: Harap masukkan angka yang valid.')
 
 # 5
 def hapus_barang():
