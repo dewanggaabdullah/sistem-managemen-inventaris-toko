@@ -35,23 +35,40 @@ def tambah_barang():
 # 2
 def ubah_stok():
     print('__UPDATE STOK__')
-    while True:
-        try:
-            barang = input('masukkan nama barang yang ada buat di update stocknya\n>> ')
-            stok_baru = int(input('masukkan jumlah stok baru\n>> '))
 
-            if barang not in inventory.Kelola.daftar_inventaris:
-                print('\nproses invalid...')
-                print(f'barang bernama {barang} tidak ditemukan di dalam daftar')
-                break
+    persediaan = inventory.muat_data()
+
+    while True:
+        barang = input('Masukkan nama barang\n>> ').strip()
+
+        if not barang:
+            print('Error: Nama barang tidak boleh kosong.')
+            continue
+
+        if barang not in persediaan:
+            print(f'Error: Barang "{barang}" tidak ditemukan.')
+            continue
             
-            print(f'stok dari barang bernama {barang} berhasil diperbarui menjadi {stok_baru}')
-            inventory.Kelola.daftar_inventaris[barang] = stok_baru
+        try:
+            # Mengambil angka stok dari dalam dictionary barang
+            stok_saat_ini = persediaan[barang]['stok']
+            
+            stok_baru = int(input(f'Stok saat ini: {stok_saat_ini}. Masukkan stok baru\n>> '))
+            
+            if stok_baru < 0:
+                print('Jumlah stok tidak boleh negatif.')
+                continue
+
+            # Update nilai di dalam nested dictionary
+            persediaan[barang]['stok'] = stok_baru
+            
+            inventory.simpan_data(persediaan) 
+            
+            print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]["stok"]}.')
             break
+        
         except ValueError:
-            print('\nproses invalid...')
-            print('harap masukkan angka')
-            break
+            print('Error: Harap masukkan angka yang valid.')
 
 # 3
 def tambah_stok():
@@ -135,7 +152,7 @@ def hapus_barang():
             elif validasi == 'y':
                 del persediaan[barang]
                 inventory.simpan_data(persediaan)
-                print(f'\nbarang bernama {barang} berhasil dihapus, silahkan lihat fitur daftar inventaris untuk melihatnya')
+                print(f'\nbarang bernama {barang} berhasil dihapus, silahkan ke menu daftar inventaris untuk melihatnya')
                 break
 
             elif validasi == 'n':
