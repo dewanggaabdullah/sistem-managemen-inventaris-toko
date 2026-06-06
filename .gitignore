@@ -1,4 +1,5 @@
-__pycache__
-.vscode
+__pycache__/
+.vscode/
 data/storage.json
-/venv
+venv/
+tujuan_selanjutnya.txt

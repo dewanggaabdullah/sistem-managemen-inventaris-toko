@@ -2,7 +2,7 @@ import inventory
 
 # 1
 def tambah_barang():
-    print('__TAMBAH BARANG BARU__')
+    print('\n__TAMBAH BARANG BARU__')
 
     # 1. Ambil data inventaris terbaru dari berkas JSON
     persediaan = inventory.muat_data()
@@ -28,14 +28,13 @@ def tambah_barang():
 
     inventory.simpan_data(persediaan)
 
-    print('tambah barang berhasil, ada persediaan baru dengan...')
+    print('\ntambah barang berhasil, ada persediaan baru dengan...')
     print(f'nama barang: {barang_baru}')
     print(f'jumlah stok: {stok_baru}')
 
 # 2
 def ubah_stok():
-    print('__UPDATE STOK__')
-
+    print('\n__UPDATE STOK__')
     persediaan = inventory.muat_data()
 
     while True:
@@ -72,33 +71,40 @@ def ubah_stok():
 
 # 3
 def tambah_stok():
-
+    print('\n__TAMBAH PASOKAN STOK__')
     persediaan = inventory.muat_data()
 
-    print('__TAMBAH STOK__')
     while True:
-        try:
-            barang = input('masukkan nama barang yang ingin ditambah\n>> ') 
-            stok_tambahan = int(input('masukkan jumlah stok yang ditambahkan\n>> '))
+        barang = input('masukkan nama barang yang ingin ditambah\n>> ').strip() 
 
-            if barang not in persediaan:
-                print('\nproses invalid...')
-                print(f'barang bernama {barang} tidak ditemukan di dalam daftar')
-                break
-
-            print(f'\nstok dari barang bernama {barang} berhasil ditambahkan {stok_tambahan} stok')
-            inventory.Kelola.daftar_inventaris[barang] += stok_tambahan
+        if barang not in persediaan:
+            print('\nproses invalid...')
+            print(f'barang bernama {barang} tidak ditemukan di dalam daftar')
             break
+
+        try:
+            stok_saat_ini = persediaan[barang]['stok']
+            stok_tambahan = int(input(f'Stok saat ini: {stok_saat_ini}. Masukkan jumlah barang yang ditambah\n>> '))
+
+            if stok_tambahan < 1:
+                print('Jumlah penambahan harus angka positif.')
+                continue
+
+            persediaan[barang]['stok'] += stok_tambahan
+            inventory.simpan_data(persediaan)
+            
+            print(f'\nstok dari barang bernama {barang} berhasil ditambahkan {stok_tambahan} stok')
+            break
+            
         except ValueError:
             print('\nproses invalid...')
-            print('\nharap masukkan input dengan benar')
+            print('harap masukkan input dengan benar')
             break
 
 # 4
 def kurangi_stok():
-    persediaan = inventory.muat_data()
-
     print('\n__KURANG STOK__')
+    persediaan = inventory.muat_data()
     
     while True:
         barang = input('Masukkan nama barang\n>> ').strip()
@@ -108,21 +114,21 @@ def kurangi_stok():
             continue # Kembali ke awal loop untuk input ulang
             
         try:
-            stok_berkurang = int(input(f'Stok saat ini: {persediaan[barang]}. Masukkan jumlah pengurangan\n>> '))
+            stok_saat_ini = persediaan[barang]['stok']
+            stok_berkurang = int(input(f'Stok saat ini: {stok_saat_ini}. Masukkan jumlah pengurangan\n>> '))
             
-            if stok_berkurang <= 0:
+            if stok_berkurang < 1:
                 print('Jumlah pengurangan harus angka positif.')
                 continue
             
-            if stok_berkurang > persediaan[barang]['stok']:
-                print(f'Gagal: Stok tidak cukup! Hanya tersedia {persediaan[barang]}.')
+            if stok_berkurang > stok_saat_ini:
+                print(f'Gagal: Stok tidak cukup! Hanya tersedia {stok_saat_ini}.')
                 continue
 
-            persediaan[barang] -= stok_berkurang
-            
+            persediaan[barang]['stok'] -= stok_berkurang
             inventory.simpan_data(persediaan) 
             
-            print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]}.')
+            print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]["stok"]}.')
             break
             
         except ValueError:
@@ -130,10 +136,8 @@ def kurangi_stok():
 
 # 5
 def hapus_barang():
-
+    print('\n__HAPUS BARANG__')
     persediaan = inventory.muat_data()
-
-    print('__HAPUS BARANG__')
 
     while True:
         barang = input('masukkan nama barang yang ingin dihapus\n>> ').strip()
@@ -159,28 +163,18 @@ def hapus_barang():
                 print("\nbarang tidak dihapus, kembali ke menu.")
                 return            
         else:
-            # PENTING: Jika barang TIDAK ADA di persediaan, beri tahu user lalu keluar
             print('\nproses invalid...')
             print('barang tidak ada di dalam daftar')
             break
 
 # 6
 def lihat_daftar():
-    print('__DAFTAR INVENTARIS__')
+    print('\n__DAFTAR INVENTARIS__')
     daftar_inventaris = inventory.muat_data()
 
-    # Cek variabel lokal 'daftar_inventaris', bukan yang ada di modul inventory
+    # Cek variabel lokal 'daftar_inventaris',  di modul inventory
     if daftar_inventaris:
         for barang, stok in daftar_inventaris.items():
-            print(f'nama barang: {barang}\njumlah stok: {stok["stok"]}')
-            print()
+            print(f'nama barang: {barang}\njumlah stok: {stok["stok"]}\n')
     else:
         print('daftar kosong...')
-
-    """
-    Dengan menulis {stok["stok"]}, artinya: "Ambil nama barangnya, lalu dari paket data stok ini,
-    preteli dan ambil angka di dalam label "stok"-nya saja." Hasil di terminal pun bakal bersih 
-    tanpa kurung kurawal lagi
-    """
-
-    
