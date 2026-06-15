@@ -3,37 +3,54 @@ from unittest.mock import patch, MagicMock
 import engine
 
 # ==============================================================================
-# 2. TEST UBAH STOK (Uji coba loop 'while True')
+#  TEST UBAH STOK (Uji coba loop 'while True')
 # ==============================================================================
 
-@patch('engine.inventory.muat_data')
-@patch('engine.inventory.simpan_data')
-@patch('builtins.input')
-def test_ubah_stok_sukses(mock_input, mock_simpan, mock_muat):
+# SKENARIO 1: Sukses mengubah stok setelah sebelumnya salah memasukkan nama barang
+@patch('engine.inventory.simpan_data') 
+@patch('engine.inventory.muat_data') 
+@patch('builtins.input') 
+def test_ubah_stok_sukses(mock_input, mock_muat, mock_simpan, capsys):
+    # 1. Siapkan data tiruan (mock data) dan input pengguna
     mock_muat.return_value = {"Apel": {"stok": 10}}
     
-    # Simulasi user salah ketik dulu ("Mangga" -> tidak ada), baru ketik yang benar
-    # "Mangga" (salah) -> "Apel" (benar) -> "15" (stok baru)
+    # Putaran 1: Ketik "Mangga" (Error: tidak ditemukan -> loop nama barang)
+    # Putaran 2: Ketik "Apel" (Benar nama barang) -> Ketik "15" (Stok baru -> sukses & break)
     mock_input.side_effect = ["Mangga", "Apel", "15"]
     
+    # 2. Jalankan fungsi yang mau dites
     engine.ubah_stok()
     
-    # Memastikan stok Apel berhasil di-overwrite menjadi 15
+    # 3. Tangkap output yang dicetak (print) ke terminal
+    captured = capsys.readouterr()
+    
+    # 4. Asersi (pembuktian)
+    assert 'Error: Barang "Mangga" tidak ditemukan.' in captured.out
+    assert 'Sukses! Stok Apel sekarang menjadi 15.' in captured.out
     mock_simpan.assert_called_once_with({"Apel": {"stok": 15}})
 
 
-@patch('engine.inventory.muat_data')
-@patch('engine.inventory.simpan_data')
-@patch('builtins.input')
-def test_ubah_stok_memicu_value_error_lalu_berhasil(mock_input, mock_simpan, mock_muat):
+# SKENARIO 2: Menangani kesalahan input stok bukan angka (ValueError) lalu berhasil pada percobaan berikutnya
+@patch('engine.inventory.simpan_data') 
+@patch('engine.inventory.muat_data') 
+@patch('builtins.input') 
+def test_ubah_stok_memicu_value_error_lalu_berhasil(mock_input, mock_muat, mock_simpan, capsys):
+    # 1. Siapkan data tiruan (mock data) dan input pengguna
     mock_muat.return_value = {"Apel": {"stok": 10}}
     
-    # Loop 1: Pilih "Apel", ketik stok baru "dua_puluh" (Memicu ValueError!)
-    # Loop 2: Loop berulang, pilih "Apel" lagi, ketik stok baru "20" (Sukses!)
-    mock_input.side_effect = ["Apel", "dua_puluh", "Apel", "20"]
+    # JIKA KODE ENGINE.PY SUDAH DIPERBAIKI MENGGUNAKAN NESTED LOOP:
+    # 1. Input nama barang: "Apel"
+    # 2. Input stok ke-1: "dua_puluh" (Gagal, mengulang loop khusus stok)
+    # 3. Input stok ke-2: "20" (Sukses angka -> simpan & break)
+    mock_input.side_effect = ["Apel", "dua_puluh", "20"]
     
+    # 2. Jalankan fungsi yang mau dites
     engine.ubah_stok()
     
-    # Memastikan program tidak crash di tengah jalan akibat ValueError,
-    # dan pada akhirnya sukses menyimpan data yang benar (stok jadi 20)
+    # 3. Tangkap output yang dicetak (print) ke terminal
+    captured = capsys.readouterr()
+    
+    # 4. Asersi (pembuktian)
+    assert 'Error: Harap masukkan angka yang valid.' in captured.out
+    assert 'Sukses! Stok Apel sekarang menjadi 20.' in captured.out
     mock_simpan.assert_called_once_with({"Apel": {"stok": 20}})

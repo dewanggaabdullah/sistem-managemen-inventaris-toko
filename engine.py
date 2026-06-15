@@ -32,6 +32,7 @@ def tambah_barang():
     print(f'nama barang: {barang_baru}')
     print(f'jumlah stok: {stok_baru}')
 
+
 # 2
 def ubah_stok():
     print('\n__UPDATE STOK__')
@@ -48,26 +49,31 @@ def ubah_stok():
             print(f'Error: Barang "{barang}" tidak ditemukan.')
             continue
             
-        try:
-            # Mengambil angka stok dari dalam dictionary barang
-            stok_saat_ini = persediaan[barang]['stok']
-            
-            stok_baru = int(input(f'Stok saat ini: {stok_saat_ini}. Masukkan stok baru\n>> '))
-            
-            if stok_baru < 0:
-                print('Jumlah stok tidak boleh negatif.')
-                continue
-
-            # Update nilai di dalam nested dictionary
-            persediaan[barang]['stok'] = stok_baru
-            
-            inventory.simpan_data(persediaan) 
-            
-            print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]["stok"]}.')
-            break
+        # 1. Definisikan kembali stok saat ini agar tidak NameError
+        stok_saat_ini = persediaan[barang]['stok']
         
-        except ValueError:
-            print('Error: Harap masukkan angka yang valid.')
+        # 2. GUNAKAN LOOP BARU DI SINI UNTUK MENGUNCI INPUT STOK
+        while True:
+            try:
+                stok_baru = int(input(f'Stok saat ini: {stok_saat_ini}. Masukkan stok baru\n>> '))
+                
+                if stok_baru < 0:
+                    print('Jumlah stok tidak boleh negatif.')
+                    continue # Mengulang loop internal ini (minta stok lagi)
+                
+                break # Keluar dari loop stok jika sukses memasukkan angka valid >= 0
+            
+            except ValueError:
+                print('Error: Harap masukkan angka yang valid.')
+                # Tidak ada break/continue di sini berarti otomatis mengulang loop stok ini lagi
+
+        # 3. Proses update & simpan dilakukan DI LUAR loop stok, tapi DI DALAM loop utama
+        persediaan[barang]['stok'] = stok_baru
+        inventory.simpan_data(persediaan) 
+        
+        print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]["stok"]}.')
+        break # Keluar dari loop utama karena semua proses dari awal sampai simpan sudah sukses
+
 
 # 3
 def tambah_stok():
@@ -101,6 +107,7 @@ def tambah_stok():
             print('harap masukkan input dengan benar')
             break
 
+
 # 4
 def kurangi_stok():
     print('\n__KURANG STOK__')
@@ -111,28 +118,36 @@ def kurangi_stok():
 
         if barang not in persediaan:
             print(f'Error: Barang "{barang}" tidak ditemukan. Silakan coba lagi.')
-            continue # Kembali ke awal loop untuk input ulang
+            continue
             
-        try:
-            stok_saat_ini = persediaan[barang]['stok']
-            stok_berkurang = int(input(f'Stok saat ini: {stok_saat_ini}. Masukkan jumlah pengurangan\n>> '))
-            
-            if stok_berkurang < 1:
-                print('Jumlah pengurangan harus angka positif.')
-                continue
-            
-            if stok_berkurang > stok_saat_ini:
-                print(f'Gagal: Stok tidak cukup! Hanya tersedia {stok_saat_ini}.')
-                continue
+        stok_saat_ini = persediaan[barang]['stok']
+        
+        # --- BIKIN LOOP BARU UNTUK MENGUNCI INPUT ANGKA ---
+        while True:
+            try:
+                stok_berkurang = int(input(f'Stok saat ini: {stok_saat_ini}. Masukkan jumlah pengurangan\n>> '))
+                
+                if stok_berkurang < 1:
+                    print('Jumlah pengurangan harus angka positif.')
+                    continue 
+                
+                if stok_berkurang > stok_saat_ini:
+                    print(f'Gagal: Stok tidak cukup! Hanya tersedia {stok_saat_ini}.')
+                    continue 
 
-            persediaan[barang]['stok'] -= stok_berkurang
-            inventory.simpan_data(persediaan) 
-            
-            print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]["stok"]}.')
-            break
-            
-        except ValueError:
-            print('Error: Harap masukkan angka yang valid.')
+                # Jika lolos semua validasi angka, keluar dari loop kedua
+                break
+                
+            except ValueError:
+                print('Error: Harap masukkan angka yang valid.')
+                # Otomatis mengulang loop kedua jika input bukan angka
+
+        # --- PROSES UPDATE & SIMPAN (Di luar loop angka, di dalam loop utama) ---
+        persediaan[barang]['stok'] -= stok_berkurang
+        inventory.simpan_data(persediaan) 
+        
+        print(f'Sukses! Stok {barang} sekarang menjadi {persediaan[barang]["stok"]}.')
+        break # Keluar dari loop utama karena semua proses sukses
 
 # 5
 def hapus_barang():
@@ -166,6 +181,7 @@ def hapus_barang():
             print('\nproses invalid...')
             print('barang tidak ada di dalam daftar')
             break
+
 
 # 6
 def lihat_daftar():
