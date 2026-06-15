@@ -38,7 +38,6 @@ def test_ubah_stok_memicu_value_error_lalu_berhasil(mock_input, mock_muat, mock_
     # 1. Siapkan data tiruan (mock data) dan input pengguna
     mock_muat.return_value = {"Apel": {"stok": 10}}
     
-    # JIKA KODE ENGINE.PY SUDAH DIPERBAIKI MENGGUNAKAN NESTED LOOP:
     # 1. Input nama barang: "Apel"
     # 2. Input stok ke-1: "dua_puluh" (Gagal, mengulang loop khusus stok)
     # 3. Input stok ke-2: "20" (Sukses angka -> simpan & break)

@@ -12,12 +12,10 @@ import engine
 @patch('engine.inventory.simpan_data') 
 @patch('engine.inventory.muat_data') 
 @patch('builtins.input') 
-# PERBAIKAN 1: Mengubah urutan parameter menjadi (mock_input, mock_muat, mock_simpan)
 def test_kurangi_stok_gagal_karena_melebihi_stok(mock_input, mock_muat, mock_simpan, capsys):
     # Data awal simulasi
     mock_muat.return_value = {"Apel": {"stok": 10}}
     
-    # PERBAIKAN 2: Menghapus "Apel" kedua karena program sekarang mengunci input angka
     # 1. Pilih "Apel" (Nama barang)
     # 2. Kurangi "12" (Gagal, stok kurang -> loop khusus angka mengulang)
     # 3. Kurangi "5" (Sukses -> simpan & break)
@@ -38,12 +36,10 @@ def test_kurangi_stok_gagal_karena_melebihi_stok(mock_input, mock_muat, mock_sim
 @patch('engine.inventory.simpan_data')
 @patch('engine.inventory.muat_data')
 @patch('builtins.input')
-# PERBAIKAN 1: Mengubah urutan parameter menjadi (mock_input, mock_muat, mock_simpan)
 def test_kurangi_stok_menolak_angka_negatif(mock_input, mock_muat, mock_simpan, capsys):
     # Data awal simulasi
     mock_muat.return_value = {"Apel": {"stok": 10}}
     
-    # PERBAIKAN 2: Menghapus "Apel" kedua karena program sekarang mengunci input angka
     # 1. Pilih "Apel" (Nama barang)
     # 2. Kurangi "-5" (Gagal, ditolak karena < 1 -> loop khusus angka mengulang)
     # 3. Kurangi "3" (Sukses -> simpan & break)
