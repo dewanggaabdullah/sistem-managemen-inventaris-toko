@@ -1,4 +1,10 @@
-import engine
+from tools.hapus_barang import hapus_barang
+from tools.kurangi_stok import kurangi_stok
+from tools.lihat_daftar import lihat_daftar
+from tools.tambah_barang import tambah_barang
+from tools.tambah_stok import tambah_stok
+from tools.ubah_stok import ubah_stok
+
 import traceback
 
 def buka_menu():
@@ -25,12 +31,12 @@ while True:
         pilih = input_user
 
         pilihan_user = {
-            '1' : engine.tambah_barang,
-            '2' : engine.ubah_stok,
-            '3' : engine.tambah_stok,
-            '4' : engine.kurangi_stok,
-            '5' : engine.hapus_barang,
-            '6' : engine.lihat_daftar
+            '1' : tambah_barang,
+            '2' : ubah_stok,
+            '3' : tambah_stok,
+            '4' : kurangi_stok,
+            '5' : hapus_barang,
+            '6' : lihat_daftar
         }
 
         if pilih in pilihan_user:

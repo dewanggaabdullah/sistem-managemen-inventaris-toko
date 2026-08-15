@@ -1,5 +1,16 @@
-__pycache__/
-.vscode/
-data/storage.json
+# Virtual Environment
 venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Pytest Cache
+.pytest_cache/
+
+# IDE Configuration (PyCharm / JetBrains)
+.idea/
+
+# etc
 roadmap.txt
